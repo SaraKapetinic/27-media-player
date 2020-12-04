@@ -4,17 +4,21 @@
 //maximum speed of playback rate, and default step of forward and backward rate play buttons
 #define MAX_PLAYBACK_RATE 4.00
 #define PLAYBACK_STEP 0.25
+#define BRIGHTNESS_STEP 10
+#define CONTRAST_STEP 10
 
 #include <QMainWindow>
 #include <QWidget>
 #include <QMenuBar>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QVideoWidget>
 #include <QKeySequence>
 #include <QGraphicsVideoItem>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QLabel>
+
 
 class QAbstractButton;
 class QSlider;
@@ -52,6 +56,10 @@ public slots:
     void muteClicked();
     void volumeIncrease();
     void volumeDecrease();
+    void brightnessIncrease();
+    void brightnessDecrease();
+    void contrastIncrease();
+    void contrastDecrease();
     void setMuted(bool muted);
     void seek(int seconds);
     void exit();
@@ -72,6 +80,7 @@ private slots:
 
 private:
     QMediaPlayer* m_mediaPlayer = nullptr;
+    QVideoWidget* m_videoWidget = nullptr;
     QMediaPlaylist *m_playlist = nullptr;
     bool m_playerMuted = false;
     QMediaPlayer::State m_playerState = QMediaPlayer::StoppedState;

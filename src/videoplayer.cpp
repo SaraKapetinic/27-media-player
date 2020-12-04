@@ -13,6 +13,9 @@ videoplayer::videoplayer(QWidget *parent)
         m_playlist = new QMediaPlaylist();
         m_mediaPlayer->setPlaylist(m_playlist);
 
+        m_videoWidget = new QVideoWidget;
+        m_mediaPlayer->setVideoOutput(m_videoWidget);
+
         m_videoItem = new QGraphicsVideoItem;
         m_videoItem->setSize(QSizeF(screenGeometry.width()/3, screenGeometry.height()/2));
         m_videoItem->setAspectRatioMode(Qt::AspectRatioMode::KeepAspectRatio);
@@ -333,6 +336,7 @@ void videoplayer::createMenuBar(){
     QAction* decBrightness = video->addAction("Brightness decrease");
     QAction* incContrast = video->addAction("Contrast increase");
     QAction* decContrast = video->addAction("Contrast decrease");
+
     //help padajuci meni
     help->addAction("Licence");
     //povezivanje akcija sa funkcijama pri kliku
@@ -341,6 +345,11 @@ void videoplayer::createMenuBar(){
     connect(incVol, &QAction::triggered, this, &videoplayer::volumeIncrease);
     connect(decVol, &QAction::triggered, this, &videoplayer::volumeDecrease);
     connect(mute, &QAction::triggered, this, &videoplayer::muteClicked);
+    connect(incBrightness, &QAction::triggered, this, &videoplayer::brightnessIncrease);
+    connect(decBrightness, &QAction::triggered, this, &videoplayer::brightnessDecrease);
+    connect(incContrast, &QAction::triggered, this, &videoplayer::contrastIncrease);
+    connect(decContrast, &QAction::triggered, this, &videoplayer::contrastDecrease);
+
     //TODO: ostale funkcije za rad
     //precice na tastaturi
     openFile->setShortcut(QKeySequence::Open); // CTRL + O
@@ -544,4 +553,20 @@ void videoplayer::mousePressEvent(QMouseEvent *event){
         m_playButton->click();
     else if(event->button()==Qt::RightButton && m_graphicsView->underMouse())
         m_rightClickMenu->popup(QCursor::pos());
+}
+
+void videoplayer::brightnessIncrease(){
+   m_videoWidget->setBrightness(m_videoWidget->brightness() + BRIGHTNESS_STEP);
+}
+
+void videoplayer::brightnessDecrease(){
+    m_videoWidget->setBrightness(m_videoWidget->brightness() - BRIGHTNESS_STEP);
+}
+
+void videoplayer::contrastIncrease(){
+    m_videoWidget->setContrast(m_videoWidget->contrast() + CONTRAST_STEP);
+}
+
+void videoplayer::contrastDecrease(){
+    m_videoWidget->setContrast(m_videoWidget->contrast() - CONTRAST_STEP);
 }

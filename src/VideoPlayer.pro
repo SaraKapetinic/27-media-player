@@ -3,7 +3,7 @@ QT       += core gui multimedia multimediawidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QT += gui
-
+QT += multimediawidgets
 CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
